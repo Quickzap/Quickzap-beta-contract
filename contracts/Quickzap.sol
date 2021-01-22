@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 interface IQuickZap {
-    event Payment(address indexed sender, address payable indexed receiver);
+    event Payment(address indexed sender, address indexed receiver);
 
     function pay(
         address[] calldata path,
@@ -43,7 +43,7 @@ interface IUniswapV2Router01 {
     ) external payable returns (uint256[] memory amounts);
 }
 
-contract QuickZap is IQuickZap, Ownable, ReentrancyGuard {
+contract Quickzap is IQuickZap, Ownable, ReentrancyGuard {
     address[] public routers;
     address private ZERO = 0x0000000000000000000000000000000000000000;
     uint256
@@ -68,12 +68,12 @@ contract QuickZap is IQuickZap, Ownable, ReentrancyGuard {
         if (path[0] == ZERO) {
             require(
                 msg.value >= amountIn,
-                "QuickZap: Insufficient amount payed in."
+                "Quickzap: Insufficient amount payed in."
             );
         }
 
         if (path.length <= 1) {
-            require(deadline >= block.timestamp, "QuickZap: EXPIRED");
+            require(deadline >= block.timestamp, "Quickzap: EXPIRED");
             _pay(receiver, msg.sender, path[0], amountOut);
         } else {
             transferIn(path[0], amountIn);
@@ -100,7 +100,7 @@ contract QuickZap is IQuickZap, Ownable, ReentrancyGuard {
         swapOnUniswap(path, amountIn, amountOut, deadline);
         require(
             balance(path[path.length - 1]) >= (balanceBefore + amountOut),
-            "QuickZap: Insufficient balance after swap."
+            "Quickzap: Insufficient balance after swap."
         );
     }
 
