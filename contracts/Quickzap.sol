@@ -111,7 +111,7 @@ contract Quickzap is IQuickZap, Ownable, ReentrancyGuard {
         uint256 deadline
     ) private {
         address[] memory uniPath = new address[](path.length);
-        for (uint256 i = 0; i < path.length; i++) {
+        for (uint256 i = 0; i < path.length; i++) { 
             if (path[i] == ZERO) {
                 uniPath[i] = WETH;
             } else {
